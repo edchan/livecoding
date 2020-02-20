@@ -15,3 +15,9 @@ To run the script, enter the following:
 ```bash
 $ php tasks.php
 ```
+
+To run the updated script, enter the following:
+
+```bash
+$ php tasks-updated.php
+```
