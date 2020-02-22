@@ -6,8 +6,8 @@ namespace livecoding\Tasks\Controller\Conditions;
 
 class LessThan
 {
-  public function output($dataNumber, $operationNumber, $output = '')
-  {
-      return ($dataNumber < $operationNumber) ? $output: null;
-  }
+    public function output($dataNumber, $operationNumber, $output = '')
+    {
+        return ($dataNumber < $operationNumber) ? $output: null;
+    }
 }

@@ -9,51 +9,48 @@ use livecoding\Tasks\Controller\Conditions\DivisibleBy;
 use livecoding\Tasks\Controller\Conditions\EqualTo;
 use livecoding\Tasks\Controller\Conditions\GreaterThan;
 
-$output = new ReadyOutput();
-$divisible = new DivisibleBy();
-$equal = new EqualTo();
-$greater = new GreaterThan();
+function renderOutput($label = '', $minNum, $maxNum, $separator, $conditions)
+{
+    $results = $label ? $label . "\n": '';
+    for ($i = $minNum; $i <= $maxNum; $i++) {
+        foreach ($conditions as $condition) {
+            list($condition_num, $condition_output, $condition_action) = $condition;
+            switch ($condition_action) {
+                case 'divisible':
+                  $divisible = new DivisibleBy();
+                  $numbers[$i][] = $divisible->output($i, $condition_num, $condition_output);
+                  break;
+                case 'equal':
+                    $equal = new EqualTo();
+                    $numbers[$i][] = $equal->output($i, $condition_num, $condition_output);
+                    break;
+                case 'greater':
+                    $greater = new GreaterThan();
+                    $numbers[$i][] = $greater->output($i, $condition_num, $condition_output);
+                    break;
+            }
+        }
+        $output = new ReadyOutput();
+        $numbers = $output->ready($i, $numbers);
+    }
+    $results .= implode($separator, $numbers) . "\n";
 
-// Output for Task 1;
-print "Task v1:\n";
-$minNum = 1;
-$maxNum = 20;
-for ($i = $minNum; $i <= $maxNum; $i++) {
-    $numbers1[$i] = [
-      $divisible->output($i, 3, 'pa'),
-      $divisible->output($i, 5, 'pow')
-    ];
-
-    $numbers1 = $output->ready($i, $numbers1);
+    return $results;
 }
-print implode(' ', $numbers1) . "\n";
 
-// Output for Task 2;
-print "Task v2:\n";
-$minNum = 1;
-$maxNum = 15;
-for ($i = $minNum; $i <= $maxNum; $i++) {
-    $numbers2[$i] = [
-      $divisible->output($i, 2, 'hatee'),
-      $divisible->output($i, 7, 'ho')
-    ];
+print renderOutput('Task v1:', 1, 20, ' ', array(
+  [3, 'pa', 'divisible'],
+  [5, 'pow', 'divisible']
+));
 
-    $numbers2 = $output->ready($i, $numbers2);
-}
-print implode('-', $numbers2) . "\n";
+print renderOutput('Task v2:', 1, 15, '-', array(
+  [2, 'hatee', 'divisible'],
+  [7, 'ho', 'divisible']
+));
 
-// Output for Task 3;
-print "Task v3:\n";
-$minNum = 1;
-$maxNum = 10;
-for ($i = $minNum; $i <= $maxNum; $i++) {
-    $numbers3[$i] = [
-      $equal->output($i, 1, 'joff'),
-      $equal->output($i, 4, 'joff'),
-      $equal->output($i, 9, 'joff'),
-      $greater->output($i, '5', 'tchoff')
-    ];
-
-    $numbers3 = $output->ready($i, $numbers3);
-}
-print implode('-', $numbers3) . "\n";
+print renderOutput('Task v3:', 1, 10, '-', array(
+  [1, 'joff', 'equal'],
+  [4, 'joff', 'equal'],
+  [9, 'joff', 'equal'],
+  [5, 'tchoff', 'greater']
+));

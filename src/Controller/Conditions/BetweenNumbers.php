@@ -6,8 +6,9 @@ namespace livecoding\Tasks\Controller\Conditions;
 
 class BetweenNumbers
 {
-  public function output($dataNumber, $minNumber, $maxNumber, $output = '')
-  {
-      return ($dataNumber >= $minNumber && $dataNumber <= $maxNumber) ? $output: null;
-  }
+    public function output($dataNumber, $operationNumber, $output = '')
+    {
+        list($minNumber, $maxNumber) = $operationNumber;
+        return ($dataNumber >= $minNumber && $dataNumber <= $maxNumber) ? $output: null;
+    }
 }
